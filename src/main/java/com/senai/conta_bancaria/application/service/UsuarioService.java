@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Service
 public class UsuarioService {
 
@@ -24,5 +26,25 @@ public class UsuarioService {
     public List<Usuario> listarUsuarios() {
 
         return usuarioRepository.findAll();
+    }
+
+    public Usuario buscarUsuarioPorId(Long id) {
+        return usuarioRepository.findById(id).get();
+    }
+
+    public Usuario atualizarUsuario(Long id, Usuario usuario) {
+        Usuario usuarioAtualizado = buscarUsuarioPorId(id);
+        if (usuarioAtualizado != null) {
+            usuarioAtualizado.setNome(usuario.getNome());
+            usuarioAtualizado.setEmail(usuario.getEmail());
+            usuarioAtualizado.setSenha(usuario.getSenha());
+            return usuarioRepository.save(usuarioAtualizado);
+        }
+
+        return null;
+    }
+
+    public void deletarUsuario(Long id) {
+        usuarioRepository.deleteById(id);
     }
 }
