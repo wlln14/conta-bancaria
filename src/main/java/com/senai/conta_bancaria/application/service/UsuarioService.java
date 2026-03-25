@@ -1,5 +1,7 @@
 package com.senai.conta_bancaria.application.service;
 
+import com.senai.conta_bancaria.application.DTO.UsuarioRequestDTO;
+import com.senai.conta_bancaria.application.DTO.UsuarioResponseDTO;
 import com.senai.conta_bancaria.domain.entity.Usuario;
 import com.senai.conta_bancaria.domain.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,32 +18,31 @@ public class UsuarioService {
     UsuarioRepository usuarioRepository;
 
 
-    public Usuario cadastrarUsuario(Usuario usuario) {
-        usuarioRepository.save(usuario);
+    public UsuarioResponseDTO cadastrarUsuario(UsuarioRequestDTO usuarioRequestDTO) {
 
-
-        return usuario;
+        return UsuarioResponseDTO.fromEntity(
+                usuarioRepository.save(usuarioRequestDTO.toEntity()
+                )
+        );
     }
 
-    public List<Usuario> listarUsuarios() {
+    public List<UsuarioResponseDTO> listarUsuarios() {
 
-        return usuarioRepository.findAll();
+        return usuarioRepository.findAll()
+                .stream().map(UsuarioResponseDTO::fromEntity).toList();
     }
 
-    public Usuario buscarUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id).get();
+    public UsuarioResponseDTO buscarUsuarioPorId(Long id) {
+        return UsuarioResponseDTO.fromEntity(usuarioRepository.findById(id).get());
     }
 
-    public Usuario atualizarUsuario(Long id, Usuario usuario) {
-        Usuario usuarioAtualizado = buscarUsuarioPorId(id);
-        if (usuarioAtualizado != null) {
-            usuarioAtualizado.setNome(usuario.getNome());
-            usuarioAtualizado.setEmail(usuario.getEmail());
-            usuarioAtualizado.setSenha(usuario.getSenha());
-            return usuarioRepository.save(usuarioAtualizado);
-        }
+    public UsuarioResponseDTO atualizarUsuario(Long id, UsuarioRequestDTO usuarioRequestDTO) {
+        Usuario usuarioAtualizado = usuarioRepository.findById(id).get();
+        usuarioAtualizado.setNome(usuarioRequestDTO.nome());
+        usuarioAtualizado.setEmail(usuarioRequestDTO.email());
+        usuarioAtualizado.setSenha(usuarioRequestDTO.senha());
+        return UsuarioResponseDTO.fromEntity(usuarioRepository.save(usuarioAtualizado));
 
-        return null;
     }
 
     public void deletarUsuario(Long id) {

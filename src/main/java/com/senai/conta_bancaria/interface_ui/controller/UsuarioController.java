@@ -1,5 +1,7 @@
 package com.senai.conta_bancaria.interface_ui.controller;
 
+import com.senai.conta_bancaria.application.DTO.UsuarioRequestDTO;
+import com.senai.conta_bancaria.application.DTO.UsuarioResponseDTO;
 import com.senai.conta_bancaria.application.service.UsuarioService;
 import com.senai.conta_bancaria.domain.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,27 +20,27 @@ public class UsuarioController {
     UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario){
+    public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(@RequestBody UsuarioRequestDTO usuarioRequestDTO){
         // @RequestBody fala para o @PostMapping que a informação de usuario está no body do http
         // Service é responsavel por "orquestrar"
-        Usuario usuarioCadastrado = usuarioService.cadastrarUsuario(usuario);
-        return ResponseEntity.created(URI.create("/usuario/"+usuario.getId())).body(usuarioCadastrado);
+        UsuarioResponseDTO usuarioCadastrado = usuarioService.cadastrarUsuario(usuarioRequestDTO);
+        return ResponseEntity.created(URI.create("/usuario/"+usuarioCadastrado.id())).body(usuarioCadastrado);
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> buscarUsuario() {
+    public ResponseEntity<List<UsuarioResponseDTO>> buscarUsuario() {
         return ResponseEntity.ok(usuarioService.listarUsuarios());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable Long id) {
+    public ResponseEntity<UsuarioResponseDTO> buscarUsuarioPorId(@PathVariable Long id) {
 
     return ResponseEntity.ok(usuarioService.buscarUsuarioPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> editarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.atualizarUsuario(id, usuario));
+    public ResponseEntity<UsuarioResponseDTO> editarUsuario(@PathVariable Long id, @RequestBody UsuarioRequestDTO usuarioRequestDTO) {
+        return ResponseEntity.ok(usuarioService.atualizarUsuario(id, usuarioRequestDTO));
     }
 
     @DeleteMapping("/{id}")
