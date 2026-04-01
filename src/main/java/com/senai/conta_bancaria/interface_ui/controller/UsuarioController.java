@@ -4,6 +4,7 @@ import com.senai.conta_bancaria.application.DTO.UsuarioRequestDTO;
 import com.senai.conta_bancaria.application.DTO.UsuarioResponseDTO;
 import com.senai.conta_bancaria.application.service.UsuarioService;
 import com.senai.conta_bancaria.domain.entity.Usuario;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class UsuarioController {
     UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(@RequestBody UsuarioRequestDTO usuarioRequestDTO){
+    public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(@Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO){
         // @RequestBody fala para o @PostMapping que a informação de usuario está no body do http
         // Service é responsavel por "orquestrar"
         UsuarioResponseDTO usuarioCadastrado = usuarioService.cadastrarUsuario(usuarioRequestDTO);
@@ -39,7 +40,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> editarUsuario(@PathVariable Long id, @RequestBody UsuarioRequestDTO usuarioRequestDTO) {
+    public ResponseEntity<UsuarioResponseDTO> editarUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO) {
         return ResponseEntity.ok(usuarioService.atualizarUsuario(id, usuarioRequestDTO));
     }
 

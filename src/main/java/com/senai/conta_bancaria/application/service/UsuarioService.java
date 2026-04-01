@@ -2,6 +2,7 @@ package com.senai.conta_bancaria.application.service;
 
 import com.senai.conta_bancaria.application.DTO.UsuarioRequestDTO;
 import com.senai.conta_bancaria.application.DTO.UsuarioResponseDTO;
+import com.senai.conta_bancaria.domain.Exception.UsuarioNaoEncontradoException;
 import com.senai.conta_bancaria.domain.entity.Usuario;
 import com.senai.conta_bancaria.domain.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,11 @@ public class UsuarioService {
     }
 
     public UsuarioResponseDTO buscarUsuarioPorId(Long id) {
-        return UsuarioResponseDTO.fromEntity(usuarioRepository.findById(id).get());
+        return UsuarioResponseDTO.fromEntity(usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(id)));
     }
 
     public UsuarioResponseDTO atualizarUsuario(Long id, UsuarioRequestDTO usuarioRequestDTO) {
-        Usuario usuarioAtualizado = usuarioRepository.findById(id).get();
+        Usuario usuarioAtualizado = usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(id));
         usuarioAtualizado.setNome(usuarioRequestDTO.nome());
         usuarioAtualizado.setEmail(usuarioRequestDTO.email());
         usuarioAtualizado.setSenha(usuarioRequestDTO.senha());
@@ -46,6 +47,9 @@ public class UsuarioService {
     }
 
     public void deletarUsuario(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new UsuarioNaoEncontradoException(id);
+        }
         usuarioRepository.deleteById(id);
     }
 }
