@@ -1,10 +1,12 @@
 package com.senai.conta_bancaria.interface_ui.controller;
 
-import com.senai.conta_bancaria.application.DTO.ContaRequestDTO;
-import com.senai.conta_bancaria.application.DTO.ContaResponseDTO;
-import com.senai.conta_bancaria.application.DTO.UsuarioRequestDTO;
-import com.senai.conta_bancaria.application.DTO.UsuarioResponseDTO;
+import com.senai.conta_bancaria.application.DTO.Conta.ContaRequestDTO;
+import com.senai.conta_bancaria.application.DTO.Conta.ContaResponseDTO;
+import com.senai.conta_bancaria.application.DTO.Deposito.DepositoRequestDTO;
+import com.senai.conta_bancaria.application.DTO.Saque.SaqueRequestDTO;
+import com.senai.conta_bancaria.application.DTO.Transferencia.TransferenciaRequestDTO;
 import com.senai.conta_bancaria.application.service.ContaService;
+import com.senai.conta_bancaria.domain.entity.Conta;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +48,21 @@ public class ContaController {
     public ResponseEntity<Void> deletarConta(@PathVariable Long id) {
         contaService.deletarConta(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{id}/deposito")
+    public Conta depositar(@PathVariable Long id, @RequestBody DepositoRequestDTO depositoRequestDTO) {
+        return contaService.depositarConta(id, depositoRequestDTO);
+    }
+
+    @PostMapping("/{id}/saque")
+    public Conta saque(@PathVariable Long id, @RequestBody SaqueRequestDTO saqueRequestDTO) {
+        return contaService.saqueConta(id, saqueRequestDTO);
+    }
+
+    @PostMapping("/transferencia")
+    public ContaResponseDTO transferencia(@RequestBody TransferenciaRequestDTO transferenciaRequestDTO) {
+        return contaService.transferenciaConta(transferenciaRequestDTO);
     }
 }
 

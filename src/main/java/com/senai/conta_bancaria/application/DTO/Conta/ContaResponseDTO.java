@@ -1,7 +1,6 @@
-package com.senai.conta_bancaria.application.DTO;
+package com.senai.conta_bancaria.application.DTO.Conta;
 
 import com.senai.conta_bancaria.domain.entity.Conta;
-import com.senai.conta_bancaria.domain.entity.Usuario;
 
 public record ContaResponseDTO (
 

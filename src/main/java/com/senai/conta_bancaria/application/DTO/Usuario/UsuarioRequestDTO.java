@@ -1,10 +1,9 @@
-package com.senai.conta_bancaria.application.DTO;
+package com.senai.conta_bancaria.application.DTO.Usuario;
 
 import com.senai.conta_bancaria.domain.entity.Usuario;
 import com.senai.conta_bancaria.domain.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 public record UsuarioRequestDTO(
 

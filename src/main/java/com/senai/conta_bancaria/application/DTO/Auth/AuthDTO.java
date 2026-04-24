@@ -1,4 +1,4 @@
-package com.senai.conta_bancaria.application.DTO;
+package com.senai.conta_bancaria.application.DTO.Auth;
 
 public class AuthDTO {
 

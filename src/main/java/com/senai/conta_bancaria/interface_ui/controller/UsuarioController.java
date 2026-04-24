@@ -1,9 +1,8 @@
 package com.senai.conta_bancaria.interface_ui.controller;
 
-import com.senai.conta_bancaria.application.DTO.UsuarioRequestDTO;
-import com.senai.conta_bancaria.application.DTO.UsuarioResponseDTO;
+import com.senai.conta_bancaria.application.DTO.Usuario.UsuarioRequestDTO;
+import com.senai.conta_bancaria.application.DTO.Usuario.UsuarioResponseDTO;
 import com.senai.conta_bancaria.application.service.UsuarioService;
-import com.senai.conta_bancaria.domain.entity.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,14 +1,13 @@
 package com.senai.conta_bancaria.application.service;
 
-import com.senai.conta_bancaria.application.DTO.ContaRequestDTO;
-import com.senai.conta_bancaria.application.DTO.ContaResponseDTO;
-import com.senai.conta_bancaria.application.DTO.UsuarioResponseDTO;
+import com.senai.conta_bancaria.application.DTO.Conta.ContaRequestDTO;
+import com.senai.conta_bancaria.application.DTO.Conta.ContaResponseDTO;
+import com.senai.conta_bancaria.application.DTO.Deposito.DepositoRequestDTO;
+import com.senai.conta_bancaria.application.DTO.Saque.SaqueRequestDTO;
+import com.senai.conta_bancaria.application.DTO.Transferencia.TransferenciaRequestDTO;
 import com.senai.conta_bancaria.domain.Exception.ContaNaoEncontradoException;
-import com.senai.conta_bancaria.domain.Exception.UsuarioNaoEncontradoException;
 import com.senai.conta_bancaria.domain.entity.Conta;
-import com.senai.conta_bancaria.domain.entity.Usuario;
 import com.senai.conta_bancaria.domain.repository.ContaRepository;
-import com.senai.conta_bancaria.domain.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +49,32 @@ public class ContaService {
             throw new ContaNaoEncontradoException(id);
         }
         contaRepository.deleteById(id);
+    }
+
+    public Conta depositarConta(Long id, DepositoRequestDTO depositoRequestDTO) {
+        Conta conta = contaRepository.findById(id)
+                .orElseThrow(() -> new ContaNaoEncontradoException(id));
+
+        conta.depositar(depositoRequestDTO.valorDeposito());
+        return contaRepository.save(conta);
+    }
+
+    public Conta saqueConta(Long id, SaqueRequestDTO saqueRequestDTO) {
+        Conta conta = contaRepository.findById(id)
+                .orElseThrow(() -> new ContaNaoEncontradoException(id));
+
+        conta.saque(saqueRequestDTO.valorSaque());
+        return contaRepository.save(conta);
+    }
+
+    public ContaResponseDTO transferenciaConta(TransferenciaRequestDTO transferenciaRequestDTO) {
+        Conta contaDestino = contaRepository.findByNumero(transferenciaRequestDTO.contaDestino()).get();
+        Conta contaOrigem = contaRepository.findByNumero(transferenciaRequestDTO.contaOrigem()).get();
+
+        contaOrigem.transferencia(transferenciaRequestDTO.valorSaque(), contaDestino);
+        contaRepository.save(contaDestino);
+
+        return ContaResponseDTO.fromEntity(contaRepository.save(contaOrigem));
     }
 }
 

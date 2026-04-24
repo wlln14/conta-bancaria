@@ -1,7 +1,7 @@
 package com.senai.conta_bancaria.application.service;
 
-import com.senai.conta_bancaria.application.DTO.UsuarioRequestDTO;
-import com.senai.conta_bancaria.application.DTO.UsuarioResponseDTO;
+import com.senai.conta_bancaria.application.DTO.Usuario.UsuarioRequestDTO;
+import com.senai.conta_bancaria.application.DTO.Usuario.UsuarioResponseDTO;
 import com.senai.conta_bancaria.domain.Exception.UsuarioNaoEncontradoException;
 import com.senai.conta_bancaria.domain.entity.Usuario;
 import com.senai.conta_bancaria.domain.repository.UsuarioRepository;
@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class UsuarioService {

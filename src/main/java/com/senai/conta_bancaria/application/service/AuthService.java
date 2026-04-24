@@ -1,7 +1,7 @@
 package com.senai.conta_bancaria.application.service;
 
 import com.senai.conta_bancaria.Infrastructure.security.JwtService;
-import com.senai.conta_bancaria.application.DTO.AuthDTO;
+import com.senai.conta_bancaria.application.DTO.Auth.AuthDTO;
 import com.senai.conta_bancaria.domain.Exception.UsuarioNaoEncontradoException;
 import com.senai.conta_bancaria.domain.entity.Usuario;
 import com.senai.conta_bancaria.domain.repository.UsuarioRepository;
